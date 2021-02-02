@@ -49,6 +49,6 @@ for user in users:
     # write into csv
     writer.writerow([userLink])
     # print(userLink)
-    sleep(0.2)
+    # sleep(0.2)
 
 driver.quit()
