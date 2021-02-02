@@ -23,15 +23,5 @@ writer = csv.DictWriter(csv_file,
                             'topicsViewed', 'postsRead', 'likesGiven', 'topicsCreated', 'postsCreated',\
                             'likedReceived'])
 
-# try to click on the load more button after scrolling all the way down continously until you cannot
-while True:
-    driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
-    try:
-        # wait_button = WebDriverWait(driver, 10)
-        # btn = wait_button.until(EC.element_to_be_clickable((By.XPATH, '//a[@class="no-underline  show-more-reviews"]')))
-        # btn.click()
-        sleep(1.5)
-        btn = driver.find_element_by_xpath('//a[@class="no-underline  show-more-reviews"]')
-        btn.click()
-    except:
-        break
+# scroll down to the very bottom of the page
+driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
