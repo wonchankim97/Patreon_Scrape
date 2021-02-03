@@ -1,7 +1,7 @@
 # Patreon_Scrape
 This project looks at the [Patreon Community](https://www.patreoncommunity.com/) and aims to analyze the data on the community's users (creators). Given that Patreon is a platform that is meant to [Put Creators First](https://docs.google.com/presentation/d/1vx6AJDkKeBkM0oQg19yu4BL4JeUBDdu_4aav2WXGydQ/edit#slide=id.g810d418b9c_0_515), I wanted to take a look at the ongoing activity amongst the very own creators who use their platform. Through this, we may be able to find some interesting areas of activity or even areas of improvement through the uncovered trends.
 
-[//]: # Take a look at the blog for more details: [Analyzing Activity in Patreon's Creative Community](post link)
+<!--[//]: # Take a look at the blog for more details: [Analyzing Activity in Patreon's Creative Community](post link)-->
 
 ## Getting Started
 
