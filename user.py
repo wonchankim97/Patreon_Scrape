@@ -55,26 +55,27 @@ for i in range(len(users[:3])):
         bio = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
     except:
         bio = np.nan
-
-    # left off
     try:
-        creatorType = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+        creatorType = driver.find_element_by_xpath('.//*/div[@class="public-user-field creator-type-"]/span[@class="user-field-value"]').text
     except:
         creatorType = np.nan
     try:
-        patreonURL = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+        patreonURL = driver.find_element_by_xpath('.//*/div[@class="public-user-field patreon-url"]/span[@class="user-field-value"]').text
     except:
         patreonURL = np.nan
+    
+    detailStats = driver.find_elements_by_xpath('.//*/section[@class=" about has-background"]/div[@class="details"]/div[@class="secondary"]/dl')
+
     try:
-        joined = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+        joined = detailStats[0].find_element_by_xpath('.//dd/span').get_attribute('title')
     except:
         joined = np.nan
     try:
-        lastPosted = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+        lastPosted = detailStats[1].find_element_by_xpath('.//dd/span').get_attribute('title')
     except:
         lastPosted = np.nan
     try:
-        lastSeen = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+        lastSeen = detailStats[2].find_element_by_xpath('.//dd/span').get_attribute('title')
     except:
         lastSeen = np.nan
     try:
@@ -89,42 +90,42 @@ for i in range(len(users[:3])):
         trustLevel = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
     except:
         trustLevel = np.nan
-    try:
-        daysVisited = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        daysVisited = np.nan
-    try:
-        readTime = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        readTime = np.nan
-    try:
-        recentReadTime = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        recentReadTime = np.nan
-    try:
-        topicsViewed = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        topicsViewed = np.nan
-    try:
-        postsRead = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        postsRead = np.nan
-    try:
-        likesGiven = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        likesGiven = np.nan
-    try:
-        topicsCreated = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        topicsCreated = np.nan
-    try:
-        postsCreated = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        postsCreated = np.nan
-    try:
-        likesReceived = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        likesReceived = np.nan
+    # try:
+    #     daysVisited = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     daysVisited = np.nan
+    # try:
+    #     readTime = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     readTime = np.nan
+    # try: # some people don't have a recent read time
+    #     recentReadTime = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     recentReadTime = np.nan
+    # try:
+    #     topicsViewed = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     topicsViewed = np.nan
+    # try:
+    #     postsRead = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     postsRead = np.nan
+    # try:
+    #     likesGiven = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     likesGiven = np.nan
+    # try:
+    #     topicsCreated = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     topicsCreated = np.nan
+    # try:
+    #     postsCreated = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     postsCreated = np.nan
+    # try:
+    #     likesReceived = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     likesReceived = np.nan
 
     userDict = {}
 
@@ -134,6 +135,23 @@ for i in range(len(users[:3])):
     userDict['location'] = location
     userDict['website'] = website
     userDict['bio'] = bio
+    userDict['creatorType'] = creatorType
+    userDict['patreonURL'] = patreonURL
+    userDict['joined'] = joined
+    userDict['lastPosted'] = lastPosted
+    # userDict['lastSeen'] = lastSeen
+    # userDict['views'] = views
+    # userDict['invitedBy'] = invitedBy
+    # userDict['trustLevel'] = trustLevel
+    # userDict['daysVisited'] = daysVisited
+    # userDict['readTime'] = readTime
+    # userDict['recentReadTime'] = recentReadTime
+    # userDict['topicsViewed'] = topicsViewed
+    # userDict['postsRead'] = postsRead
+    # userDict['likesGiven'] = likesGiven
+    # userDict['topicsCreated'] = topicsCreated
+    # userDict['postsCreated'] = postsCreated
+    # userDict['likesReceived'] = likesReceived
 
     writer.writerow(userDict)
 
