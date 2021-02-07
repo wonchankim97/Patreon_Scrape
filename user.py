@@ -66,10 +66,26 @@ for i in range(len(users[:3])):
     
     detailStats = driver.find_elements_by_xpath('.//*/section[@class=" about has-background"]/div[@class="details"]/div[@class="secondary"]/dl')
 
-    try:
-        joined = detailStats[0].find_element_by_xpath('.//dd/span').get_attribute('title')
-    except:
-        joined = np.nan
+    for element in detailStats:
+        # the name of the variable we're going to scrape
+        elementName = element.find_element_by_xpath('.//dt').text
+        # the actual element from which we scrape the info for the variable
+        elementVar = element.find_element_by_xpath('.//dd/span')
+
+        if elementName == 'Joined':
+            try:
+                # joined = detailStats[0].find_element_by_xpath('.//dd/span').get_attribute('title')
+                joined = elementVar.get_attribute('title')
+            except:
+                joined = np.nan
+        else:
+            break
+
+    # try:
+    #     joined = detailStats[0].find_element_by_xpath('.//dd/span').get_attribute('title')
+    # except:
+    #     joined = np.nan
+
     try:
         lastPosted = detailStats[1].find_element_by_xpath('.//dd/span').get_attribute('title')
     except:
