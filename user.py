@@ -152,18 +152,52 @@ for i in range(len(users[:3])):
         # the name of the variable we're going to scrape
         elementName = element.find_element_by_xpath('.//div/span[@class="label"]').text
         # print(elementName)
-
-        if elementName == 'Joined':
+        
+        if elementName == 'days visited':
             try:
-                # joined = detailStats[0].find_element_by_xpath('.//dd/span').get_attribute('title')
-                joined = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+                daysVisited = element.find_element_by_xpath('.//span[@class="value"]/span').text
             except:
-                joined = np.nan
-        elif elementName == 'Last Post':
+                daysVisited = np.nan
+        elif elementName == 'read time':
             try:
-                lastPosted = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+                readTime = element.find_element_by_xpath('.//dd/span').get_attribute('title')
             except:
-                lastPosted = np.nan
+                readTime = np.nan
+        elif elementName == 'recent read time':
+            try:
+                recentReadTime = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                recentReadTime = np.nan
+        elif elementName == 'topics viewed':
+            try:
+                topicsViewed = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                topicsViewed = np.nan
+        elif elementName == 'posts read':
+            try:
+                postsRead = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                postsRead = np.nan
+        elif elementName == 'given':
+            try:
+                likesGiven = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                likesGiven = np.nan
+        elif elementName == 'topics created':
+            try:
+                topicsCreated = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                topicsCreated = np.nan
+        elif elementName == 'posts created':
+            try:
+                postsCreated = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                postsCreated = np.nan
+        elif elementName == 'received':
+            try:
+                likesReceived = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                likesReceived = np.nan
     
     # try:
     #     daysVisited = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
@@ -218,7 +252,7 @@ for i in range(len(users[:3])):
     userDict['views'] = views
     userDict['invitedBy'] = invitedBy
     userDict['trustLevel'] = trustLevel
-    # userDict['daysVisited'] = daysVisited
+    userDict['daysVisited'] = daysVisited
     # userDict['readTime'] = readTime
     # userDict['recentReadTime'] = recentReadTime
     # userDict['topicsViewed'] = topicsViewed
