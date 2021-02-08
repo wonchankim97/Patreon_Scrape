@@ -23,6 +23,10 @@ writer = csv.DictWriter(csv_file,
 writer.writeheader()
 
 for i in range(len(users)):
+    # helper to see how far we are
+    if i % 100 == 0:
+        print('Users scraped: ' + str(i))
+
     # open up a driver for each user page
     chromeOptions = webdriver.ChromeOptions()
     prefs = {'profile.managed_default_content_settings.images':2}
