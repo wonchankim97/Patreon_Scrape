@@ -17,9 +17,9 @@ csv_file = open('userData.csv', 'w', encoding='utf-8', newline='')
 writer = csv.DictWriter(csv_file, 
                         fieldnames = ['username', 'fullName', 'title', 'location', 'website',\
                             'bio', 'creatorType', 'patreonURL', 'joined', 'lastPosted', 'lastSeen',\
-                            'views', 'invitedBy', 'trustLevel', 'daysVisited', 'readTime', 'recentReadTime',\
-                            'topicsViewed', 'postsRead', 'likesGiven', 'topicsCreated', 'postsCreated',\
-                            'likesReceived'])
+                            'views', 'invitedBy', 'trustLevel', 'groups', 'daysVisited', 'readTime',\
+                            'recentReadTime', 'topicsViewed', 'postsRead', 'likesGiven',\
+                            'topicsCreated', 'postsCreated', 'likesReceived'])
 writer.writeheader()
 
 for i in range(len(users[:3])):
@@ -64,48 +64,113 @@ for i in range(len(users[:3])):
     except:
         patreonURL = np.nan
     
-    detailStats = driver.find_elements_by_xpath('.//*/section[@class=" about has-background"]/div[@class="details"]/div[@class="secondary"]/dl')
-
-    for element in detailStats:
+    detailStats1 = driver.find_elements_by_xpath('.//*/section[@class=" about has-background"]/div[@class="details"]/div[@class="secondary"]/dl/div')
+    detailStats2 = driver.find_elements_by_xpath('.//*/section[@class=" about no-background"]/div[@class="details"]/div[@class="secondary"]/dl/div')
+    # detailStats = driver.find_elements_by_xpath('''.//*/section[@class="(' about has-background' or ' about no-background']/div[@class="details"]/div[@class="secondary"]/dl/div''')
+    for element in detailStats1:
         # the name of the variable we're going to scrape
         elementName = element.find_element_by_xpath('.//dt').text
-        # the actual element from which we scrape the info for the variable
-        elementVar = element.find_element_by_xpath('.//dd/span')
+        print(elementName)
 
         if elementName == 'Joined':
             try:
                 # joined = detailStats[0].find_element_by_xpath('.//dd/span').get_attribute('title')
-                joined = elementVar.get_attribute('title')
+                joined = element.find_element_by_xpath('.//dd/span').get_attribute('title')
             except:
                 joined = np.nan
+        elif elementName == 'Last Post':
+            try:
+                lastPosted = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                lastPosted = np.nan
+        elif elementName == 'Seen':
+            try:
+                lastSeen = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                lastSeen = np.nan
+        elif elementName == 'Views':
+            try:
+                views = element.find_element_by_xpath('.//dd').text
+            except:
+                views = np.nan
+        elif elementName == 'Invited By':
+            try:
+                invitedBy = element.find_element_by_xpath('.//dd/a').text
+            except:
+                invitedBy = np.nan
+        elif elementName == 'Trust Level':
+            try:
+                trustLevel = element.find_element_by_xpath('.//dd').text
+            except:
+                trustLevel = np.nan
         else:
-            break
+            continue
+    
+    for element in detailStats2:
+        # the name of the variable we're going to scrape
+        elementName = element.find_element_by_xpath('.//dt').text
+        print(elementName)
 
+        if elementName == 'Joined':
+            try:
+                # joined = detailStats[0].find_element_by_xpath('.//dd/span').get_attribute('title')
+                joined = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                joined = np.nan
+        elif elementName == 'Last Post':
+            try:
+                lastPosted = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                lastPosted = np.nan
+        elif elementName == 'Seen':
+            try:
+                lastSeen = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+            except:
+                lastSeen = np.nan
+        elif elementName == 'Views':
+            try:
+                views = element.find_element_by_xpath('.//dd').text
+            except:
+                views = np.nan
+        elif elementName == 'Invited By':
+            try:
+                invitedBy = element.find_element_by_xpath('.//dd/a').text
+            except:
+                invitedBy = np.nan
+        elif elementName == 'Trust Level':
+            try:
+                trustLevel = element.find_element_by_xpath('.//dd').text
+            except:
+                trustLevel = np.nan
+        else:
+            continue
+    
+    
     # try:
     #     joined = detailStats[0].find_element_by_xpath('.//dd/span').get_attribute('title')
     # except:
     #     joined = np.nan
 
-    try:
-        lastPosted = detailStats[1].find_element_by_xpath('.//dd/span').get_attribute('title')
-    except:
-        lastPosted = np.nan
-    try:
-        lastSeen = detailStats[2].find_element_by_xpath('.//dd/span').get_attribute('title')
-    except:
-        lastSeen = np.nan
-    try:
-        views = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        views = np.nan
-    try:
-        invitedBy = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        invitedBy = np.nan
-    try:
-        trustLevel = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    except:
-        trustLevel = np.nan
+    # try:
+    #     lastPosted = detailStats[1].find_element_by_xpath('.//dd/span').get_attribute('title')
+    # except:
+    #     lastPosted = np.nan
+    # try:
+    #     lastSeen = detailStats[2].find_element_by_xpath('.//dd/span').get_attribute('title')
+    # except:
+    #     lastSeen = np.nan
+    # try:
+    #     views = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     views = np.nan
+    # try:
+    #     invitedBy = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     invitedBy = np.nan
+    # try:
+    #     trustLevel = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
+    # except:
+    #     trustLevel = np.nan
     # try:
     #     daysVisited = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
     # except:
@@ -155,10 +220,10 @@ for i in range(len(users[:3])):
     userDict['patreonURL'] = patreonURL
     userDict['joined'] = joined
     userDict['lastPosted'] = lastPosted
-    # userDict['lastSeen'] = lastSeen
-    # userDict['views'] = views
-    # userDict['invitedBy'] = invitedBy
-    # userDict['trustLevel'] = trustLevel
+    userDict['lastSeen'] = lastSeen
+    userDict['views'] = views
+    userDict['invitedBy'] = invitedBy
+    userDict['trustLevel'] = trustLevel
     # userDict['daysVisited'] = daysVisited
     # userDict['readTime'] = readTime
     # userDict['recentReadTime'] = recentReadTime
