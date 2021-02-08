@@ -22,7 +22,7 @@ writer = csv.DictWriter(csv_file,
                             'topicsCreated', 'postsCreated', 'likesReceived'])
 writer.writeheader()
 
-for i in range(len(users[:3])):
+for i in range(len(users)):
     # open up a driver for each user page
     chromeOptions = webdriver.ChromeOptions()
     prefs = {'profile.managed_default_content_settings.images':2}
@@ -72,6 +72,7 @@ for i in range(len(users[:3])):
         elementName = element.find_element_by_xpath('.//dt').text
         # print(elementName)
 
+        ####### conditions needed because not all users have same number of variables
         if elementName == 'Joined':
             try:
                 # joined = detailStats[0].find_element_by_xpath('.//dd/span').get_attribute('title')
@@ -145,9 +146,13 @@ for i in range(len(users[:3])):
         else:
             continue
 
-    
+    # get the path for the variables that display user stats
     userStats = driver.find_elements_by_xpath('.//*/div[@class="user-content-wrapper"]/div[@class="user-content"]/div[@class="top-section stats-section"]/ul/li')
     # print(len(userStats))
+
+    # make a boolean to check for recentReadTime
+    isActive = False
+
     for element in userStats:
         # the name of the variable we're going to scrape
         elementName = element.find_element_by_xpath('.//div/span[@class="label"]').text
@@ -160,81 +165,49 @@ for i in range(len(users[:3])):
                 daysVisited = np.nan
         elif elementName == 'read time':
             try:
-                readTime = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+                readTime = element.find_element_by_xpath('.//span[@class="value"]').text
             except:
                 readTime = np.nan
         elif elementName == 'recent read time':
             try:
-                recentReadTime = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+                isActive = True
+                recentReadTime = element.find_element_by_xpath('.//span[@class="value"]').text
             except:
+                isActive = True
                 recentReadTime = np.nan
         elif elementName == 'topics viewed':
             try:
-                topicsViewed = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+                topicsViewed = element.find_element_by_xpath('.//span[@class="value"]/span').text
             except:
                 topicsViewed = np.nan
         elif elementName == 'posts read':
             try:
-                postsRead = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+                postsRead = element.find_element_by_xpath('.//span[@class="value"]/span').text
             except:
                 postsRead = np.nan
         elif elementName == 'given':
             try:
-                likesGiven = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+                likesGiven = element.find_element_by_xpath('.//span[@class="value"]/span').text
             except:
                 likesGiven = np.nan
         elif elementName == 'topics created':
             try:
-                topicsCreated = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+                topicsCreated = element.find_element_by_xpath('.//span[@class="value"]/span').text
             except:
                 topicsCreated = np.nan
         elif elementName == 'posts created':
             try:
-                postsCreated = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+                postsCreated = element.find_element_by_xpath('.//span[@class="value"]/span').text
             except:
                 postsCreated = np.nan
         elif elementName == 'received':
             try:
-                likesReceived = element.find_element_by_xpath('.//dd/span').get_attribute('title')
+                likesReceived = element.find_element_by_xpath('.//span[@class="value"]/span').text
             except:
                 likesReceived = np.nan
     
-    # try:
-    #     daysVisited = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    # except:
-    #     daysVisited = np.nan
-    # try:
-    #     readTime = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    # except:
-    #     readTime = np.nan
-    # try: # some people don't have a recent read time
-    #     recentReadTime = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    # except:
-    #     recentReadTime = np.nan
-    # try:
-    #     topicsViewed = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    # except:
-    #     topicsViewed = np.nan
-    # try:
-    #     postsRead = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    # except:
-    #     postsRead = np.nan
-    # try:
-    #     likesGiven = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    # except:
-    #     likesGiven = np.nan
-    # try:
-    #     topicsCreated = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    # except:
-    #     topicsCreated = np.nan
-    # try:
-    #     postsCreated = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    # except:
-    #     postsCreated = np.nan
-    # try:
-    #     likesReceived = driver.find_element_by_xpath('.//*/div[@class="bio"]/div[@id="ember19"]/p').text
-    # except:
-    #     likesReceived = np.nan
+    if not isActive:
+        recentReadTime = np.nan
 
     userDict = {}
 
@@ -253,19 +226,18 @@ for i in range(len(users[:3])):
     userDict['invitedBy'] = invitedBy
     userDict['trustLevel'] = trustLevel
     userDict['daysVisited'] = daysVisited
-    # userDict['readTime'] = readTime
-    # userDict['recentReadTime'] = recentReadTime
-    # userDict['topicsViewed'] = topicsViewed
-    # userDict['postsRead'] = postsRead
-    # userDict['likesGiven'] = likesGiven
-    # userDict['topicsCreated'] = topicsCreated
-    # userDict['postsCreated'] = postsCreated
-    # userDict['likesReceived'] = likesReceived
+    userDict['readTime'] = readTime
+    userDict['recentReadTime'] = recentReadTime
+    userDict['topicsViewed'] = topicsViewed
+    userDict['postsRead'] = postsRead
+    userDict['likesGiven'] = likesGiven
+    userDict['topicsCreated'] = topicsCreated
+    userDict['postsCreated'] = postsCreated
+    userDict['likesReceived'] = likesReceived
 
     writer.writerow(userDict)
 
     driver.quit()
-
 
 # # scroll down to the very bottom of the page
 # driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
